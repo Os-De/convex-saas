@@ -69,6 +69,13 @@ const schema = defineSchema({
   })
     .index("key", ["key"])
     .index("stripeId", ["stripeId"]),
+  documents: defineTable({
+    userId: v.id("users"),
+    fileName: v.string(),
+    fileId: v.id("_storage"),
+    mimeType: v.string(),
+    size: v.number(),
+  }).index("userId", ["userId"]),
   subscriptions: defineTable({
     userId: v.id("users"),
     planId: v.id("plans"),
@@ -77,12 +84,4 @@ const schema = defineSchema({
     currency: currencyValidator,
     interval: intervalValidator,
     status: v.string(),
-    currentPeriodStart: v.number(),
-    currentPeriodEnd: v.number(),
-    cancelAtPeriodEnd: v.boolean(),
-  })
-    .index("userId", ["userId"])
-    .index("stripeId", ["stripeId"]),
-});
-
-export default schema;
+    currentPeriodS

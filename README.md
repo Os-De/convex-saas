@@ -17,6 +17,13 @@
   </p>
 </div>
 
+# Document upload
+
+This fork adds document handling:
+
+- **Documents page** (`/dashboard/documents`): upload, list, download and delete documents stored in Convex file storage. See `src/routes/_app/_auth/dashboard/_layout.documents.tsx` and `convex/documents.ts`.
+- **Document uploader** (`/uploader`): a public, standalone page to upload documents and extract their data in the browser — PDF preview, Word (.docx) text extraction, Excel/CSV tables, JSON/text/image preview, with copy and download actions. No login or backend required. See `src/routes/uploader.tsx`.
+
 # Features
 
 Features provided out of the box:
@@ -44,14 +51,4 @@ Features provided out of the box:
 
 > [!NOTE]
 > Convex SaaS is an Open Source Template that is a direct port of the amazing
-> work of [Daniel Kanem](https://twitter.com/DanielKanem) in [Remix SaaS](https://github.com/dev-xo/remix-saas).
-> As that template does, this one shares common bits of code with: [Indie
-> Stack](https://github.com/remix-run/indie-stack), [Epic
-> Stack](https://github.com/epicweb-dev/epic-stack), [Supa Stripe
-> Stack](https://github.com/rphlmr/supa-stripe-stack), and some other amazing
-> Open Source resources. Check them out, please!
-
-## Getting Started
-
-Check out the [Getting Started Documentation](https://github.com/get-convex/convex-saas/tree/main/docs) to get up
-and running.
+> work of [Danie

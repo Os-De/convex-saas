@@ -10,6 +10,7 @@ import schema, {
   PLANS,
 } from "@cvx/schema";
 import { internal } from "@cvx/_generated/api";
+import { STRIPE_SECRET_KEY } from "@cvx/env";
 import { stripe } from "@cvx/stripe";
 
 const seedProducts = [
@@ -62,6 +63,13 @@ export default internalAction(async (ctx) => {
   /**
    * Stripe Products.
    */
+  if (!STRIPE_SECRET_KEY) {
+    console.warn(
+      "⚠️ STRIPE_SECRET_KEY is not set. Skipping Stripe products seeding. " +
+        "Billing features will not work until you set it and rerun init.",
+    );
+    return;
+  }
   const products = await stripe.products.list({
     limit: 1,
   });
@@ -158,13 +166,4 @@ export default internalAction(async (ctx) => {
         proration_behavior: "always_invoice",
         products: seededProducts
           .filter(({ key }) => key !== PLANS.FREE)
-          .map(({ product, prices }) => ({ product, prices })),
-      },
-    },
-  });
-
-  console.info(`👒 Stripe Customer Portal has been successfully configured.`);
-  console.info(
-    "🎉 Visit: https://dashboard.stripe.com/test/products to see your products.",
-  );
-});
+     

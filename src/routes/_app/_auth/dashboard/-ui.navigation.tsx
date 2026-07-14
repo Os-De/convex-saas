@@ -22,6 +22,7 @@ import { buttonVariants } from "@/ui/button-util";
 import { Logo } from "@/ui/logo";
 import { Link, useMatchRoute, useNavigate } from "@tanstack/react-router";
 import { Route as DashboardRoute } from "@/routes/_app/_auth/dashboard/_layout.index";
+import { Route as DocumentsRoute } from "@/routes/_app/_auth/dashboard/_layout.documents";
 import { Route as SettingsRoute } from "@/routes/_app/_auth/dashboard/_layout.settings.index";
 import { Route as BillingSettingsRoute } from "@/routes/_app/_auth/dashboard/_layout.settings.billing";
 import { User } from "~/types";
@@ -32,6 +33,7 @@ export function Navigation({ user }: { user: User }) {
   const matchRoute = useMatchRoute();
   const navigate = useNavigate();
   const isDashboardPath = matchRoute({ to: DashboardRoute.fullPath });
+  const isDocumentsPath = matchRoute({ to: DocumentsRoute.fullPath });
   const isSettingsPath = matchRoute({ to: SettingsRoute.fullPath });
   const isBillingPath = matchRoute({ to: BillingSettingsRoute.fullPath });
 
@@ -240,34 +242,25 @@ export function Navigation({ user }: { user: User }) {
         <div
           className={cn(
             `flex h-12 items-center border-b-2`,
+            isDocumentsPath ? "border-primary" : "border-transparent",
+          )}
+        >
+          <Link
+            to={DocumentsRoute.fullPath}
+            className={cn(
+              `${buttonVariants({ variant: "ghost", size: "sm" })} text-primary/80`,
+            )}
+          >
+            Documents
+          </Link>
+        </div>
+        <div
+          className={cn(
+            `flex h-12 items-center border-b-2`,
             isSettingsPath ? "border-primary" : "border-transparent",
           )}
         >
           <Link
             to={SettingsRoute.fullPath}
             className={cn(
-              `${buttonVariants({ variant: "ghost", size: "sm" })} text-primary/80`,
-            )}
-          >
-            Settings
-          </Link>
-        </div>
-        <div
-          className={cn(
-            `flex h-12 items-center border-b-2`,
-            isBillingPath ? "border-primary" : "border-transparent",
-          )}
-        >
-          <Link
-            to={BillingSettingsRoute.fullPath}
-            className={cn(
-              `${buttonVariants({ variant: "ghost", size: "sm" })} text-primary/80`,
-            )}
-          >
-            Billing
-          </Link>
-        </div>
-      </div>
-    </nav>
-  );
-}
+              `${buttonVariants({ var

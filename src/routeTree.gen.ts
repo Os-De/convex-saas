@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as UploaderImport } from './routes/uploader'
 import { Route as AppImport } from './routes/_app'
 import { Route as IndexImport } from './routes/index'
 import { Route as AppAuthImport } from './routes/_app/_auth'
@@ -23,6 +24,7 @@ import { Route as AppAuthDashboardLayoutImport } from './routes/_app/_auth/dashb
 import { Route as AppAuthDashboardLayoutIndexImport } from './routes/_app/_auth/dashboard/_layout.index'
 import { Route as AppAuthOnboardingLayoutUsernameImport } from './routes/_app/_auth/onboarding/_layout.username'
 import { Route as AppAuthDashboardLayoutSettingsImport } from './routes/_app/_auth/dashboard/_layout.settings'
+import { Route as AppAuthDashboardLayoutDocumentsImport } from './routes/_app/_auth/dashboard/_layout.documents'
 import { Route as AppAuthDashboardLayoutCheckoutImport } from './routes/_app/_auth/dashboard/_layout.checkout'
 import { Route as AppAuthDashboardLayoutSettingsIndexImport } from './routes/_app/_auth/dashboard/_layout.settings.index'
 import { Route as AppAuthDashboardLayoutSettingsBillingImport } from './routes/_app/_auth/dashboard/_layout.settings.billing'
@@ -34,6 +36,11 @@ const AppAuthOnboardingImport = createFileRoute('/_app/_auth/onboarding')()
 const AppAuthDashboardImport = createFileRoute('/_app/_auth/dashboard')()
 
 // Create/Update Routes
+
+const UploaderRoute = UploaderImport.update({
+  path: '/uploader',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const AppRoute = AppImport.update({
   id: '/_app',
@@ -103,6 +110,12 @@ const AppAuthDashboardLayoutSettingsRoute =
     getParentRoute: () => AppAuthDashboardLayoutRoute,
   } as any)
 
+const AppAuthDashboardLayoutDocumentsRoute =
+  AppAuthDashboardLayoutDocumentsImport.update({
+    path: '/documents',
+    getParentRoute: () => AppAuthDashboardLayoutRoute,
+  } as any)
+
 const AppAuthDashboardLayoutCheckoutRoute =
   AppAuthDashboardLayoutCheckoutImport.update({
     path: '/checkout',
@@ -137,6 +150,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: ''
       preLoaderRoute: typeof AppImport
+      parentRoute: typeof rootRoute
+    }
+    '/uploader': {
+      id: '/uploader'
+      path: '/uploader'
+      fullPath: '/uploader'
+      preLoaderRoute: typeof UploaderImport
       parentRoute: typeof rootRoute
     }
     '/_app/_auth': {
@@ -202,6 +222,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAuthDashboardLayoutCheckoutImport
       parentRoute: typeof AppAuthDashboardLayoutImport
     }
+    '/_app/_auth/dashboard/_layout/documents': {
+      id: '/_app/_auth/dashboard/_layout/documents'
+      path: '/documents'
+      fullPath: '/dashboard/documents'
+      preLoaderRoute: typeof AppAuthDashboardLayoutDocumentsImport
+      parentRoute: typeof AppAuthDashboardLayoutImport
+    }
     '/_app/_auth/dashboard/_layout/settings': {
       id: '/_app/_auth/dashboard/_layout/settings'
       path: '/settings'
@@ -249,6 +276,7 @@ export const routeTree = rootRoute.addChildren({
       AppAuthDashboardRoute: AppAuthDashboardRoute.addChildren({
         AppAuthDashboardLayoutRoute: AppAuthDashboardLayoutRoute.addChildren({
           AppAuthDashboardLayoutCheckoutRoute,
+          AppAuthDashboardLayoutDocumentsRoute,
           AppAuthDashboardLayoutSettingsRoute:
             AppAuthDashboardLayoutSettingsRoute.addChildren({
               AppAuthDashboardLayoutSettingsBillingRoute,
@@ -269,6 +297,7 @@ export const routeTree = rootRoute.addChildren({
       }),
     }),
   }),
+  UploaderRoute,
 })
 
 /* prettier-ignore-end */
@@ -280,7 +309,8 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/_app"
+        "/_app",
+        "/uploader"
       ]
     },
     "/": {
@@ -292,6 +322,9 @@ export const routeTree = rootRoute.addChildren({
         "/_app/_auth",
         "/_app/login"
       ]
+    },
+    "/uploader": {
+      "filePath": "uploader.tsx"
     },
     "/_app/_auth": {
       "filePath": "_app/_auth.tsx",
@@ -327,6 +360,7 @@ export const routeTree = rootRoute.addChildren({
       "parent": "/_app/_auth/dashboard",
       "children": [
         "/_app/_auth/dashboard/_layout/checkout",
+        "/_app/_auth/dashboard/_layout/documents",
         "/_app/_auth/dashboard/_layout/settings",
         "/_app/_auth/dashboard/_layout/"
       ]
@@ -350,33 +384,4 @@ export const routeTree = rootRoute.addChildren({
       "parent": "/_app/login/_layout"
     },
     "/_app/_auth/dashboard/_layout/checkout": {
-      "filePath": "_app/_auth/dashboard/_layout.checkout.tsx",
-      "parent": "/_app/_auth/dashboard/_layout"
-    },
-    "/_app/_auth/dashboard/_layout/settings": {
-      "filePath": "_app/_auth/dashboard/_layout.settings.tsx",
-      "parent": "/_app/_auth/dashboard/_layout",
-      "children": [
-        "/_app/_auth/dashboard/_layout/settings/billing",
-        "/_app/_auth/dashboard/_layout/settings/"
-      ]
-    },
-    "/_app/_auth/onboarding/_layout/username": {
-      "filePath": "_app/_auth/onboarding/_layout.username.tsx",
-      "parent": "/_app/_auth/onboarding/_layout"
-    },
-    "/_app/_auth/dashboard/_layout/": {
-      "filePath": "_app/_auth/dashboard/_layout.index.tsx",
-      "parent": "/_app/_auth/dashboard/_layout"
-    },
-    "/_app/_auth/dashboard/_layout/settings/billing": {
-      "filePath": "_app/_auth/dashboard/_layout.settings.billing.tsx",
-      "parent": "/_app/_auth/dashboard/_layout/settings"
-    },
-    "/_app/_auth/dashboard/_layout/settings/": {
-      "filePath": "_app/_auth/dashboard/_layout.settings.index.tsx",
-      "parent": "/_app/_auth/dashboard/_layout/settings"
-    }
-  }
-}
-ROUTE_MANIFEST_END */
+     
